@@ -88,7 +88,7 @@ public class Rcon {
 			throw new IllegalArgumentException("Payload can't be null or empty");
 		}
 		
-		RconPacket response = this.send(RconPacket.SERVERDATA_EXECCOMMAND, payload.getBytes(StandardCharsets.US_ASCII));
+		RconPacket response = this.send(RconPacket.SERVERDATA_EXECCOMMAND, payload.getBytes(StandardCharsets.UTF_8));
 		
 		return new String(response.getPayload(), this.getCharset());
 	}
