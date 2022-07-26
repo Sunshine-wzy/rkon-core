@@ -1,9 +1,12 @@
 # Eclipse
 .project
 .classpath
+.idea
 .settings/
 
 # Stuff
 bin/
 build/
 lib/
+
+rkon-core.iml

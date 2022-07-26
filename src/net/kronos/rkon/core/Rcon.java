@@ -1,11 +1,12 @@
 package net.kronos.rkon.core;
 
+import net.kronos.rkon.core.ex.AuthenticationException;
+
 import java.io.IOException;
 import java.net.Socket;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Random;
-
-import net.kronos.rkon.core.ex.AuthenticationException;
 
 public class Rcon {
 	
@@ -23,13 +24,11 @@ public class Rcon {
 	 * @param host Rcon server address
 	 * @param port Rcon server port
 	 * @param password Rcon server password
-	 * 
-	 * @throws IOException
-	 * @throws AuthenticationException
+	 *
 	 */
 	public Rcon(String host, int port, byte[] password) throws IOException, AuthenticationException {
 		// Default charset is utf8
-		this.charset = Charset.forName("UTF-8");
+		this.charset = StandardCharsets.UTF_8;
 		
 		// Connect to host
 		this.connect(host, port, password);
@@ -41,9 +40,6 @@ public class Rcon {
 	 * @param host Rcon server address
 	 * @param port Rcon server port
 	 * @param password Rcon server password
-	 * 
-	 * @throws IOException
-	 * @throws AuthenticationException
 	 */
 	public void connect(String host, int port, byte[] password) throws IOException, AuthenticationException {
 		if(host == null || host.trim().isEmpty()) {
@@ -74,8 +70,6 @@ public class Rcon {
 	
 	/**
 	 * Disconnect from the current server
-	 * 
-	 * @throws IOException
 	 */
 	public void disconnect() throws IOException {
 		synchronized(sync) {
@@ -88,15 +82,13 @@ public class Rcon {
 	 * 
 	 * @param payload The command to send
 	 * @return The payload of the response
-	 * 
-	 * @throws IOException
 	 */
 	public String command(String payload) throws IOException {
 		if(payload == null || payload.trim().isEmpty()) {
 			throw new IllegalArgumentException("Payload can't be null or empty");
 		}
 		
-		RconPacket response = this.send(RconPacket.SERVERDATA_EXECCOMMAND, payload.getBytes());
+		RconPacket response = this.send(RconPacket.SERVERDATA_EXECCOMMAND, payload.getBytes(StandardCharsets.US_ASCII));
 		
 		return new String(response.getPayload(), this.getCharset());
 	}
