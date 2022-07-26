@@ -19,3 +19,18 @@ When connecting to the rcon server, an `AuthenticationException` will be thrown 
 
 ## Download
 The latest packed .jar, ready to use as a library, is available [here](https://github.com/Kronos666/rkon-core/releases/latest).
+
+### Maven 
+[![](https://www.jitpack.io/v/Sunshine-wzy/rkon-core.svg)](https://www.jitpack.io/#Sunshine-wzy/rkon-core)
+```xml
+<repository>
+    <id>jitpack.io</id>
+    <url>https://jitpack.io</url>
+</repository>
+
+<dependency>
+    <groupId>com.github.Sunshine-wzy</groupId>
+    <artifactId>rkon-core</artifactId>
+    <version>1.2.2</version>
+</dependency>
+```
