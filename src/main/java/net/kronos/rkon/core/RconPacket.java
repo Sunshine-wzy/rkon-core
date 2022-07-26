@@ -1,25 +1,21 @@
 package net.kronos.rkon.core;
 
-import java.io.DataInputStream;
-import java.io.EOFException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import net.kronos.rkon.core.ex.MalformedPacketException;
+
+import java.io.*;
 import java.net.SocketException;
 import java.nio.BufferUnderflowException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-
-import net.kronos.rkon.core.ex.MalformedPacketException;
 
 public class RconPacket {
 	
 	public static final int SERVERDATA_EXECCOMMAND = 2;
 	public static final int SERVERDATA_AUTH = 3;
 	
-	private int requestId;
-	private int type;
-	private byte[] payload;
+	private final int requestId;
+	private final int type;
+	private final byte[] payload;
 	
 	private RconPacket(int requestId, int type, byte[] payload) {
 		this.requestId = requestId;
@@ -46,9 +42,6 @@ public class RconPacket {
 	 * @param type The packet type
 	 * @param payload The payload (password, command, etc.)
 	 * @return A RconPacket object containing the response
-	 * 
-	 * @throws IOException
-	 * @throws MalformedPacketException 
 	 */
 	protected static RconPacket send(Rcon rcon, int type, byte[] payload) throws IOException {
 		try {
@@ -72,8 +65,6 @@ public class RconPacket {
 	 * @param requestId The request id
 	 * @param type The packet type
 	 * @param payload The payload
-	 * 
-	 * @throws IOException
 	 */
 	private static void write(OutputStream out, int requestId, int type, byte[] payload) throws IOException {
 		int bodyLength = RconPacket.getBodyLength(payload.length);
@@ -101,9 +92,6 @@ public class RconPacket {
 	 * 
 	 * @param in The InputStream to read on
 	 * @return The read RconPacket
-	 * 
-	 * @throws IOException
-	 * @throws MalformedPacketException
 	 */
 	private static RconPacket read(InputStream in) throws IOException {
 		// Header is 3 4-bytes ints
